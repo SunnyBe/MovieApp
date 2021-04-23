@@ -7,8 +7,11 @@ object AppDependencies {
     // android ui
     private val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     private val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
-    private val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    private val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    private val material = "com.google.android.material:material:${Versions.material}"
+    private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    private val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
+    private val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
 
     // test libs
     private val junit = "junit:junit:${Versions.junit}"
@@ -20,6 +23,10 @@ object AppDependencies {
         add(coreKtx)
         add(appcompat)
         add(constraintLayout)
+        add(material)
+        add(stetho)
+        add(retrofit)
+        add(okhttpLogging)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
