@@ -1,6 +1,9 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("kotlin-kapt")
 }
 //apply(plugin = "com.google.firebase.crashlytics")
 
@@ -32,11 +35,11 @@ android {
     productFlavors {
         create("staging") {
             applicationIdSuffix = ".staging"
-            setDimension(AppConfig.dimension)
+            dimension(AppConfig.dimension)
         }
 
         create("production") {
-            setDimension(AppConfig.dimension)
+            dimension(AppConfig.dimension)
         }
     }
 
