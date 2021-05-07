@@ -11,6 +11,7 @@ object AppDependencies {
     private val material = "com.google.android.material:material:${Versions.material}"
     private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
+    private val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     private val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
 
     // test libs
@@ -27,6 +28,7 @@ object AppDependencies {
         add(stetho)
         add(retrofit)
         add(okhttpLogging)
+        add(coroutinesAndroid)
     }
 
     val coreLibraries = arrayListOf<String>().apply {
@@ -38,6 +40,7 @@ object AppDependencies {
         add(stetho)
         add(retrofit)
         add(okhttpLogging)
+        add(coroutinesAndroid)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
