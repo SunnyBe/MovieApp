@@ -29,6 +29,17 @@ object AppDependencies {
         add(okhttpLogging)
     }
 
+    val coreLibraries = arrayListOf<String>().apply {
+        add(kotlinStdLib)
+        add(coreKtx)
+        add(appcompat)
+        add(constraintLayout)
+        add(material)
+        add(stetho)
+        add(retrofit)
+        add(okhttpLogging)
+    }
+
     val androidTestLibraries = arrayListOf<String>().apply {
         add(extJUnit)
         add(espressoCore)

@@ -44,7 +44,7 @@ dependencies {
     // std lib
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // app libs
-    implementation(AppDependencies.appLibraries)
+    implementation(AppDependencies.coreLibraries)
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
