@@ -12,7 +12,7 @@ android {
     buildToolsVersion(AppConfig.buildToolsVersion)
 
     defaultConfig {
-        applicationId = "com.buchi.fullentry"
+        applicationId = "com.buchi.movieapp"
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
         versionCode(AppConfig.versionCode)
