@@ -1,11 +1,14 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("kotlin-kapt")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 //apply(plugin = "com.google.firebase.crashlytics")
+val localProperties = gradleLocalProperties(rootDir)
 
 android {
     compileSdkVersion(AppConfig.compileSdk)
@@ -28,6 +31,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
+        }
+
+        getByName("debug") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
         }
     }
 
@@ -54,6 +67,9 @@ android {
     viewBinding {
         android.buildFeatures.viewBinding = true
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
 }
 
 dependencies {
@@ -61,8 +77,12 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // app libs
     implementation(AppDependencies.appLibraries)
+    kapt(AppDependencies.annotations)
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+    kaptAndroidTest(AppDependencies.testAnnotations)
+    debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
+    project(":core")
 }

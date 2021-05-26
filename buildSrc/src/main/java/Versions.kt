@@ -4,22 +4,32 @@ object Versions {
     const val kotlin = "1.4.20"
 
     //libs
-    val appcompat = "1.2.0"
+    const val appcompat = "1.2.0"
 
-    val constraintLayout = "2.0.4"
-    val coreKtx = "1.3.2"
-    val coroutines = "1.4.3"
+    const val constraintLayout = "2.0.4"
+    const val coreKtx = "1.3.2"
+    const val coreTest = "2.1.0"
+    const val coroutines = "1.4.3"
 
-    val material = "1.3.0"
+    const val fragment = "1.3.2"
+    const val gson = "2.8.6"
 
-    val okhttpLogging = "4.9.0"
+    const val hilt = "2.28-alpha"
 
-    val retrofit = "2.9.0"
+    const val lifecycle = "1.0.0-alpha02"
+    const val navigation = "2.3.4"
+    const val material = "1.3.0"
+    const val mockito = "3.0.0"
 
-    val stetho = "1.5.1"
+    const val okhttpLogging = "4.9.0"
+
+    const val retrofit = "2.9.0"
+    const val room = "2.3.0"
+
+    const val stetho = "1.5.1"
 
     //test
-    val junit = "4.12"
-    val extJunit = "1.1.2"
-    val espresso = "3.3.0"
+    const val junit = "4.12"
+    const val extJunit = "1.1.2"
+    const val espresso = "3.3.0"
 }

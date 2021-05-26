@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -44,7 +46,9 @@ dependencies {
     // std lib
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // app libs
-    implementation(AppDependencies.coreLibraries)
+    implementation(AppDependencies.appLibraries)
+//    api(AppDependencies.coreLibraries)
+    kapt(AppDependencies.annotations)
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
