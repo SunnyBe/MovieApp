@@ -7,6 +7,7 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import com.buchi.fullentry.HiltTestActivity
 import com.buchi.fullentry.R
 import dagger.hilt.internal.Preconditions
 

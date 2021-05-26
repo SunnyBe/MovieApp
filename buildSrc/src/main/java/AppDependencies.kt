@@ -2,21 +2,23 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AppDependencies {
     // std lib
-    val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
     // android ui
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     private const val material = "com.google.android.material:material:${Versions.material}"
+
+    // api call
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
+
     private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     private const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
     private const val room = "androidx.room:room-runtime:${Versions.room}"
     private const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
-    private const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.lifecycle}"
     private const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
     private const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
 
@@ -28,6 +30,7 @@ object AppDependencies {
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     private const val espressoIntent = "androidx.test.espresso:espresso-intents:${Versions.espresso}"
+    private const val espressoIdling = "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
     private const val runner = "androidx.test:runner:1.3.0"
     private const val rules = "androidx.test:rules:1.3.0"
     private const val roomTest = "androidx.room:room-testing:${Versions.room}"
@@ -53,7 +56,6 @@ object AppDependencies {
         add(gson)
         add(hilt)
         add(room)
-        add(hiltViewModel)
         add(fragmentKtx)
         add(activityKtx)
     }
@@ -71,7 +73,6 @@ object AppDependencies {
         add(gson)
         add(hilt)
         add(room)
-        add(hiltViewModel)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
@@ -135,5 +136,11 @@ fun DependencyHandler.testImplementation(list: List<String>) {
 fun DependencyHandler.kaptAndroidTest(list: List<String>) {
     list.forEach { dependency ->
         add("kaptAndroidTest", dependency)
+    }
+}
+
+fun DependencyHandler.kaptTest(list: List<String>) {
+    list.forEach { dependency ->
+        add("kaptTest", dependency)
     }
 }

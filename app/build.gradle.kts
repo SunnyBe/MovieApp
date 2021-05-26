@@ -20,7 +20,7 @@ android {
     buildToolsVersion(AppConfig.buildToolsVersion)
 
     defaultConfig {
-        applicationId = "com.buchi.movieapp"
+        applicationId = "com.buchi.fullentry"
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
         versionCode(AppConfig.versionCode)
@@ -50,17 +50,17 @@ android {
         }
     }
 
-    flavorDimensions(AppConfig.dimension)
-    productFlavors {
-        create("staging") {
-            applicationIdSuffix = ".staging"
-            dimension(AppConfig.dimension)
-        }
-
-        create("production") {
-            dimension(AppConfig.dimension)
-        }
-    }
+//    flavorDimensions(AppConfig.dimension)
+//    productFlavors {
+//        create("staging") {
+//            applicationIdSuffix = ".staging"
+//            dimension(AppConfig.dimension)
+//        }
+//
+//        create("production") {
+//            dimension(AppConfig.dimension)
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -76,6 +76,13 @@ android {
     hilt {
         enableTransformForLocalTests = true
     }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
 }
 
 dependencies {
@@ -83,12 +90,15 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // app libs
     implementation(AppDependencies.appLibraries)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     kapt(AppDependencies.annotations)
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
     kaptAndroidTest(AppDependencies.testAnnotations)
+    kaptTest(AppDependencies.testAnnotations)
     debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
     project(":core")
 }

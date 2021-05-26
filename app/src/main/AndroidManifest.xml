@@ -12,6 +12,9 @@
         android:theme="@style/Theme.FullEntry"
         android:name=".MainApplication">
         <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".movie.presentation.MovieActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

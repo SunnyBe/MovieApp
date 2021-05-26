@@ -14,10 +14,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 
 @Module
-@InstallIn(ActivityComponent::class)    // Movies Data is only needed when Movie activity is alive.
+@InstallIn(SingletonComponent::class)    // Movies Data is only needed when Movie activity is alive.
 object MovieModule {
 
     @Provides
@@ -39,7 +40,7 @@ object MovieModule {
     }
 
     @Provides
-    fun provideMovieRepository(@ActivityContext context: Context, network: MovieService, cache: MovieDao): MovieRepository {
+    fun provideMovieRepository(@ApplicationContext context: Context, network: MovieService, cache: MovieDao): MovieRepository {
         return MoviesRepositoryImpl(context, network, cache)
     }
 }

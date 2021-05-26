@@ -14,7 +14,7 @@ object Versions {
     const val fragment = "1.3.2"
     const val gson = "2.8.6"
 
-    const val hilt = "2.28-alpha"
+    const val hilt = "2.35"
 
     const val lifecycle = "1.0.0-alpha02"
     const val navigation = "2.3.4"

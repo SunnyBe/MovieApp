@@ -27,6 +27,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+        getByName("debug") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {
@@ -39,6 +46,13 @@ android {
 
     viewBinding {
         android.buildFeatures.viewBinding = true
+    }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
     }
 }
 
@@ -53,4 +67,6 @@ dependencies {
     // test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+    kaptAndroidTest(AppDependencies.testAnnotations)
+    kaptTest(AppDependencies.testAnnotations)
 }
