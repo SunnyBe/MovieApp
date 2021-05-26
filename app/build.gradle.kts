@@ -1,5 +1,9 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+import java.util.Properties
+import java.io.InputStreamReader
+import java.io.FileInputStream
+import java.io.File
 
 plugins {
     id("com.android.application")
@@ -9,6 +13,7 @@ plugins {
 }
 //apply(plugin = "com.google.firebase.crashlytics")
 val localProperties = gradleLocalProperties(rootDir)
+val gradleProperties = GradleUtils.gradleProperties(rootDir, "gradle.properties")
 
 android {
     compileSdkVersion(AppConfig.compileSdk)
@@ -31,7 +36,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
         }
 
         getByName("debug") {
@@ -40,7 +45,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
+//            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
         }
     }
 
