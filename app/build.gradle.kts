@@ -37,6 +37,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.getProperty("MOVIE_ACCESS_TOKEN")?:gradleProperties.getProperty("MOVIE_ACCESS_TOKEN"))
+            buildConfigField("String", "MOVIE_API_KEY", localProperties.getProperty("MOVIE_API_KEY")?:gradleProperties.getProperty("MOVIE_API_KEY"))
         }
 
         getByName("debug") {
@@ -47,6 +49,8 @@ android {
             )
 //            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
             buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.getProperty("MOVIE_ACCESS_TOKEN")?:gradleProperties.getProperty("MOVIE_ACCESS_TOKEN"))
+            buildConfigField("String", "MOVIE_API_KEY", localProperties.getProperty("MOVIE_API_KEY")?:gradleProperties.getProperty("MOVIE_API_KEY"))
         }
     }
 
@@ -96,9 +100,11 @@ dependencies {
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     androidTestImplementation(AppDependencies.androidTestLibraries)
     kaptAndroidTest(AppDependencies.testAnnotations)
     kaptTest(AppDependencies.testAnnotations)
+    kaptAndroidTest(AppDependencies.hiltCompiler)
     debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
-    project(":core")
+    implementation(project(":core"))
 }

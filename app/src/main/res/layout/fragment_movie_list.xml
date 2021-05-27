@@ -4,4 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".movie.presentation.MovieActivity"/>
+    tools:context=".movie.presentation.MovieActivity">
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is a test"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

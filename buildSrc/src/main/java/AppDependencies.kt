@@ -12,6 +12,8 @@ object AppDependencies {
 
     // api call
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    private const val retrofitConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+
     private const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
 
     private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
@@ -40,7 +42,7 @@ object AppDependencies {
 
     // Annotations
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
-    private const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     private const val hiltXCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt}"
 
     val appLibraries = arrayListOf<String>().apply {
@@ -51,6 +53,7 @@ object AppDependencies {
         add(material)
         add(stetho)
         add(retrofit)
+        add(retrofitConverter)
         add(okhttpLogging)
         add(coroutinesAndroid)
         add(gson)
@@ -91,6 +94,7 @@ object AppDependencies {
         add(junit)
         add(mocktio)
         add(coreTesting)
+        add(coroutinesTest)
     }
 
     val annotations = arrayListOf<String>().apply {
