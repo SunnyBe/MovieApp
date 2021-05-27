@@ -77,8 +77,7 @@ class MovieListViewModelTest {
         }
     }
 
-    @Throws(Throwable::class)
-    @Test
+    @Test(expected = Throwable::class)
     fun fetchMovieListReturnsSystemError() {
         coroutineScope.dispatcher.runBlockingTest {
             Mockito.`when`(movieRepo.fetchList(1)).thenThrow(Throwable("Failed to fetch"))

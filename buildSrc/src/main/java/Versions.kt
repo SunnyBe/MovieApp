@@ -13,6 +13,7 @@ object Versions {
 
     const val fragment = "1.3.2"
     const val gson = "2.8.6"
+    const val glide = "4.11.0"
 
     const val hilt = "2.35"
 
@@ -27,6 +28,7 @@ object Versions {
     const val room = "2.3.0"
 
     const val stetho = "1.5.1"
+    const val swipeRefresh = "1.1.0"
     const val turbine = "0.5.1"
 
     //test

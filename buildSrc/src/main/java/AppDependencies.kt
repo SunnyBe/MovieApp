@@ -9,6 +9,7 @@ object AppDependencies {
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     private const val material = "com.google.android.material:material:${Versions.material}"
+    private const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}"
 
     // api call
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -16,6 +17,7 @@ object AppDependencies {
 
     private const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
 
+    // Co
     private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     private const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
@@ -24,6 +26,8 @@ object AppDependencies {
     private const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
     private const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
 
+    // Image rendering
+    private const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
 
     // test libs
     private const val junit = "junit:junit:${Versions.junit}"
@@ -45,6 +49,7 @@ object AppDependencies {
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     private const val hiltXCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt}"
+    private const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -62,6 +67,8 @@ object AppDependencies {
         add(room)
         add(fragmentKtx)
         add(activityKtx)
+        add(glide)
+        add(swipeRefresh)
     }
 
     val coreLibraries = arrayListOf<String>().apply {
@@ -102,6 +109,7 @@ object AppDependencies {
     val annotations = arrayListOf<String>().apply {
         add(roomCompiler)
         add(hiltCompiler)
+        add(glideCompiler)
     }
     val testAnnotations = arrayListOf<String>().apply {
         add(hiltCompiler)
