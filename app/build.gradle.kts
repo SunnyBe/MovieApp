@@ -94,17 +94,19 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // app libs
     implementation(AppDependencies.appLibraries)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     kapt(AppDependencies.annotations)
 
     // test libs
     testImplementation(AppDependencies.testLibraries)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     androidTestImplementation(AppDependencies.androidTestLibraries)
     kaptAndroidTest(AppDependencies.testAnnotations)
     kaptTest(AppDependencies.testAnnotations)
     kaptAndroidTest(AppDependencies.hiltCompiler)
-    debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
     implementation(project(":core"))
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
+    debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
 }

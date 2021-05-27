@@ -4,11 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.buchi.core.utils.ResultState
 import com.buchi.fullentry.fakes.MockMovieRepository
 import com.buchi.fullentry.movie.data.MovieRepository
-import com.buchi.fullentry.movie.data.MoviesRepositoryImpl
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailStateEvents
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewModel
-import com.buchi.fullentry.movie.presentation.movielist.MovieListStateEvents
-import com.buchi.fullentry.movie.presentation.movielist.MovieListViewModel
+import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewState
 import com.buchi.fullentry.utilities.MainCoroutineScopeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -29,13 +27,13 @@ class MovieDetailViewModelTest {
     @get:Rule
     val coroutineScope = MainCoroutineScopeRule()
 
-    @Mock
-    lateinit var movieRepo: MovieRepository
+    private val movieRepo: MovieRepository by lazy {
+        Mockito.mock(MovieRepository::class.java)
+    }
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        movieRepo = MockMovieRepository
         viewModel = MovieDetailViewModel(movieRepo)
     }
 
@@ -44,16 +42,47 @@ class MovieDetailViewModelTest {
         coroutineScope.cleanupTestCoroutines()
     }
 
+
     @Test
-    fun testMovieListViewModel_fetchMovieEvent_updates_viewState_withData() {
-        runBlockingTest {
+    fun fetchMovieDetailReturnsValidMovieDetail_updates_viewState_withValidData() {
+        coroutineScope.dispatcher.runBlockingTest {
+            val expectedFlow = flowOf(
+                ResultState.data(
+                    null,
+                    MovieDetailViewState(movieDetail = MockUtilities.testMovie(1))
+                )
+            )
+            Mockito.`when`(movieRepo.fetchDetail(1)).thenReturn(expectedFlow)
             viewModel.setStateEvent(MovieDetailStateEvents.FetchMovieDetail(1))
 
-            // Test confirmation
             Assert.assertNotNull(viewModel.dataState.value.data!!.peekContent())
             println(viewModel.dataState.value.data!!.peekContent())
-            Assert.assertEquals(1, viewModel.dataState.value.data?.getContentIfNotHandled()?.movieDetail?.id)
+            Assert.assertEquals(
+                1,
+                viewModel.dataState.value.data?.getContentIfNotHandled()?.movieDetail?.id
+            )
         }
     }
 
+    @Test
+    fun fetchMovieListReturnsValidNetworkError_updates_dataState_withError() {
+        coroutineScope.dispatcher.runBlockingTest {
+            val expectedFlow = flowOf(
+                ResultState.error<MovieDetailViewState>(
+                    "Failed to fetch",
+                    Throwable("Failed to fetch")
+                )
+            )
+            Mockito.`when`(movieRepo.fetchDetail(1)).thenReturn(expectedFlow)
+            viewModel.setStateEvent(MovieDetailStateEvents.FetchMovieDetail(1))
+
+            println(viewModel.dataState.value.error!!.peekContent())
+            Assert.assertNotNull(viewModel.dataState.value.error!!.peekContent())
+            Assert.assertEquals(
+                "Failed to fetch",
+                viewModel.dataState.value.error?.getContentIfNotHandled()?.message
+            )
+        }
+    }
 }
+

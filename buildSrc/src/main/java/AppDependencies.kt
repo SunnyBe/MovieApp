@@ -37,6 +37,7 @@ object AppDependencies {
     private const val rules = "androidx.test:rules:1.3.0"
     private const val roomTest = "androidx.room:room-testing:${Versions.room}"
     private const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    private const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     private const val navTest = "androidx.navigation:navigation-testing:${Versions.navigation}"
     private const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:2.33-beta"
 
@@ -95,6 +96,7 @@ object AppDependencies {
         add(mocktio)
         add(coreTesting)
         add(coroutinesTest)
+        add(turbine)
     }
 
     val annotations = arrayListOf<String>().apply {

@@ -7,7 +7,7 @@ object AppConfig {
     const val buildToolsVersion = "30.0.3"
 
 //    const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
-    const val androidTestInstrumentation =  "com.buchi.buttoned.utils.CustomTestRunner"
+    const val androidTestInstrumentation =  "com.buchi.fullentry.utilities.CustomTestRunner"
     const val proguardConsumerRules =  "consumer-rules.pro"
     const val dimension = "environment"
 }

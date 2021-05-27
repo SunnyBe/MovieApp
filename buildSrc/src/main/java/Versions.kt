@@ -27,6 +27,7 @@ object Versions {
     const val room = "2.3.0"
 
     const val stetho = "1.5.1"
+    const val turbine = "0.5.1"
 
     //test
     const val junit = "4.12"

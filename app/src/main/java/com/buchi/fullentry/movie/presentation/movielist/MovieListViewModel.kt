@@ -1,6 +1,5 @@
 package com.buchi.fullentry.movie.presentation.movielist
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buchi.core.utils.ResultState
@@ -21,11 +20,13 @@ class MovieListViewModel @Inject constructor(
     private val stateEvents: StateFlow<MovieListStateEvents> = _stateEvents
 
     // DataState is the state of date returned with ViewState
-    private val _dataState = MutableStateFlow<ResultState<MovieListViewState>>(ResultState.data(null))
+    private val _dataState =
+        MutableStateFlow<ResultState<MovieListViewState>>(ResultState.data(null))
     val dataState: StateFlow<ResultState<MovieListViewState>> get() = _dataState
 
     // ViewState holds what will be processed on the screen based on the value of the data state returned.
-    private val _viewState: MutableStateFlow<MovieListViewState> = MutableStateFlow(MovieListViewState())
+    private val _viewState: MutableStateFlow<MovieListViewState> =
+        MutableStateFlow(MovieListViewState())
     val viewState: StateFlow<MovieListViewState> = _viewState
 
     init {
@@ -33,7 +34,8 @@ class MovieListViewModel @Inject constructor(
             processEvents(events).mapLatest { resp ->
                 _dataState.value = resp
             }
-        }.launchIn(viewModelScope)
+        }
+            .launchIn(viewModelScope)
 
     }
 

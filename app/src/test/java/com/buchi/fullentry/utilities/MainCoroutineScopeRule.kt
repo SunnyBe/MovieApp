@@ -26,7 +26,7 @@ class MainCoroutineScopeRule(val dispatcher: TestCoroutineDispatcher = TestCorou
 
     override fun finished(description: Description?) {
         super.finished(description)
-        cleanupTestCoroutines()
         Dispatchers.resetMain()
+        dispatcher.cleanupTestCoroutines()
     }
 }
