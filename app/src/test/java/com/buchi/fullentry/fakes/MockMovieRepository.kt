@@ -1,7 +1,7 @@
 package com.buchi.fullentry.fakes
 
 import com.buchi.core.utils.ResultState
-import com.buchi.fullentry.MockUtilities
+import com.buchi.fullentry.utilities.MockUtilities
 import com.buchi.fullentry.movie.data.MovieRepository
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewState
 import com.buchi.fullentry.movie.presentation.movielist.MovieListViewState

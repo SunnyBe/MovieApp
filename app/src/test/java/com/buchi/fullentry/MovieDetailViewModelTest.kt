@@ -2,17 +2,16 @@ package com.buchi.fullentry
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.buchi.core.utils.ResultState
-import com.buchi.fullentry.fakes.MockMovieRepository
 import com.buchi.fullentry.movie.data.MovieRepository
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailStateEvents
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewModel
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewState
 import com.buchi.fullentry.utilities.MainCoroutineScopeRule
+import com.buchi.fullentry.utilities.MockUtilities
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 

@@ -1,4 +1,4 @@
-package com.buchi.fullentry
+package com.buchi.fullentry.utilities
 
 import com.buchi.fullentry.movie.data.cache.MovieData
 import com.buchi.fullentry.movie.model.Movie
