@@ -31,6 +31,18 @@ object MockUtilities {
 
     val testMovieData = MovieData(
         id = 0,
-        title = "Harray Porter"
+        title = "Harray Porter",
+        originalTitle = "Original test title",
+        adult = false,
+        originalLanguage = "EN",
+        overview = "Test Overview",
+        backdropPath = "test/backdroppath/0/com",
+        genreIds = "1,2",
+        mediaType = "TestMedia",
+        popularity = Math.random(),
+        posterPath = "test/posterPath/0/com",
+        voteAverage = "0",
+        voteCount = Math.random().toInt(),
+        releaseDate = "2020-19-02"
     )
 }

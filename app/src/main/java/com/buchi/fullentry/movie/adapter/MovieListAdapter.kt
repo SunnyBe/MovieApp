@@ -9,8 +9,7 @@ import com.buchi.fullentry.R
 import com.buchi.fullentry.databinding.MovieItemBinding
 import com.buchi.fullentry.movie.model.Movie
 import com.bumptech.glide.Glide
-
-class MovieListAdapter: ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>(DIFF_CALLBACK) {
+class MovieListAdapter(val movieListListener: MovieListListener): ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
@@ -30,8 +29,9 @@ class MovieListAdapter: ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>
             movieItemBinding.movieTitle.text = item.title
             movieItemBinding.movieDescr.text = item.overview
 
+//            https://image.tmdb.org/t/p/w500/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg
             Glide.with(movieItemBinding.root.context)
-                .load(item.posterPath)
+                .load("https://image.tmdb.org/t/p/w500/"+item.posterPath)
                 .placeholder(R.drawable.baseline_photo_black_24dp)
                 .error(R.drawable.baseline_broken_image_pink_500_24dp)
                 .centerCrop()
@@ -47,5 +47,12 @@ class MovieListAdapter: ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            movieListListener.onItemClicked(getItem(position))
+        }
+    }
+
+    interface MovieListListener{
+        fun onItemClicked(item: Movie)
     }
 }

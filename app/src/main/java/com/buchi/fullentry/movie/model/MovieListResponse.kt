@@ -1,10 +1,12 @@
 package com.buchi.fullentry.movie.model
 
+import com.buchi.fullentry.movie.data.network.MovieDto
+
 data class MovieListResponse(
     val id: Int,
     val page: Int,
     val averageRating: Double,
-    val results: List<Movie>,
+    val results: List<MovieDto>,
     val totalPages: Int,
     val totalResults: Int
 )

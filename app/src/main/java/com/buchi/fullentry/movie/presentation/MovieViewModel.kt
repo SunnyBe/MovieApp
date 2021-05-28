@@ -18,7 +18,7 @@ class MovieViewModel @Inject constructor(): ViewModel() {
     val error: StateFlow<String?> get() = _error
 
     fun dataStateChanged(dataState: ResultState<*>) {
-        _error.value = dataState.error?.getContentIfNotHandled()?.message
+        _error.value = dataState.error?.peekContent()?.message
         _loading.value = dataState.loading
     }
 

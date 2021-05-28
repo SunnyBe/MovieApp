@@ -18,12 +18,14 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)    // Movies Data is only needed when Movie activity is alive.
 object MovieModule {
 
     @Provides
+    @Singleton
     fun provideMovieService(): MovieService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.MOVIE_BASE_URL)
@@ -34,6 +36,7 @@ object MovieModule {
     }
 
     @Provides
+    @Singleton
     fun provideMovieDb(@ApplicationContext applicationContext: Context): MoviesAppDatabase {
         return Room.databaseBuilder(applicationContext, MoviesAppDatabase::class.java, "movies-db")
             .build()

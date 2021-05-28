@@ -41,7 +41,7 @@ class MovieDetailViewModel @Inject constructor(
     private fun processEvents(event: MovieDetailStateEvents): Flow<ResultState<MovieDetailViewState>> {
         return when (event) {
             is MovieDetailStateEvents.Idle -> {
-                flow { emit(ResultState.data(null, MovieDetailViewState())) }
+                flow { emit(ResultState.data(MovieDetailViewState())) }
             }
             is MovieDetailStateEvents.FetchMovieDetail -> {
                 movieRepository.fetchDetail(event.id)

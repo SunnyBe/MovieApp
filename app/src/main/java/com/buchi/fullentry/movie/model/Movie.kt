@@ -1,37 +1,25 @@
 package com.buchi.fullentry.movie.model
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Movie(
-    @SerializedName("id")
     val id: Int,
-    @SerializedName("title")
-    val title: String,
-    @SerializedName("original_title")
-    val originalTitle: String,
-    @SerializedName("original_language")
-    val originalLanguage: String,
-    @SerializedName("adult")
-    val adult: Boolean,
-    @SerializedName("overview")
-    val overview: String,
-    @SerializedName("backdrop_path")
-    val backdropPath: String,
-    @SerializedName("genre_ids")
-    val genreIds: List<Int>,
-    @SerializedName("media_type")
-    val mediaType: String,
-    @SerializedName("popularity")
-    val popularity: Double,
-    @SerializedName("poster_path")
-    val posterPath: String,
-    @SerializedName("vote_average")
-    val voteAverage: String,
-    @SerializedName("vote_count")
-    val voteCount: Int,
-    @SerializedName("release_date")
-    val releaseDate: String
-)
+    val title: String?,
+    val originalTitle: String?,
+    val originalLanguage: String?,
+    val adult: Boolean?,
+    val overview: String?,
+    val backdropPath: String?,
+    val genreIds: List<Int>?,
+    val mediaType: String?,
+    val popularity: Double?,
+    val posterPath: String?,
+    val voteAverage: String?,
+    val voteCount: Int?,
+    val releaseDate: String?
+):Parcelable
 
 /*
 

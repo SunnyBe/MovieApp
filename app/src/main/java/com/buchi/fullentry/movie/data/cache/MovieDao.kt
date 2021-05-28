@@ -1,12 +1,10 @@
 package com.buchi.fullentry.movie.data.cache
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import com.buchi.core.base.BaseDao
 
 @Dao
-interface MovieDao {
+interface MovieDao: BaseDao {
 
     @Query("SELECT * FROM movie")
     fun getAll(): List<MovieData>
@@ -15,9 +13,9 @@ interface MovieDao {
     fun loadAllByIds(movieIds: IntArray): List<MovieData>
 
     @Query("SELECT * FROM movie WHERE title LIKE :title LIMIT 1")
-    fun findByTitle(title: String): MovieData
+    fun findByTitle(title: String): MovieData?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg movies: MovieData)
 
     @Delete

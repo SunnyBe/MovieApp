@@ -51,7 +51,6 @@ class MovieListViewModelTest {
         coroutineScope.dispatcher.runBlockingTest {
             val expectedFlow = flowOf(
                 ResultState.data(
-                    null,
                     MovieListViewState(movieList = MockUtilities.testMovieList(1, 2, 3, 4))
                 )
             )
@@ -67,7 +66,7 @@ class MovieListViewModelTest {
     @Test
     fun fetchMovieListReturnsValidNetworkError_updates_dataState_withError() {
         coroutineScope.dispatcher.runBlockingTest {
-            val expectedFlow = flowOf(ResultState.error<MovieListViewState>( "Failed to fetch", Throwable("Failed to fetch")))
+            val expectedFlow = flowOf(ResultState.error<MovieListViewState>(Throwable("Failed to fetch")))
             Mockito.`when`(movieRepo.fetchList(1)).thenReturn(expectedFlow)
             viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
 

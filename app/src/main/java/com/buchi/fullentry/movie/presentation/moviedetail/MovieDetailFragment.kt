@@ -5,11 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.buchi.fullentry.R
 import com.buchi.fullentry.databinding.FragmentMovieDetailBinding
+import com.buchi.fullentry.movie.model.Movie
 import com.buchi.fullentry.movie.presentation.MovieViewModel
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +26,9 @@ class MovieDetailFragment : Fragment() {
 
     lateinit var binding: FragmentMovieDetailBinding
     private val viewModel: MovieDetailViewModel by viewModels()
-    private val activityViewModel: MovieViewModel by viewModels()
+    private val activityViewModel: MovieViewModel by activityViewModels()
+
+    private var movieDetail: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +46,18 @@ class MovieDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setStateEvent(MovieDetailStateEvents.FetchMovieDetail(1))
+        arguments?.apply {
+            movieDetail = getParcelable("movie")
+            if (movieDetail != null) {
+                populateDetailView(movieDetail)
+            } else {
+                findNavController().navigateUp()
+            }
+        }
+
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.dataState.mapLatest { ds ->
@@ -54,9 +73,21 @@ class MovieDetailFragment : Fragment() {
             viewModel.viewState.collectLatest { vs ->
                 vs.movieDetail?.let { movies ->
                     Log.d(javaClass.simpleName, movies.toString())
-                    binding.test.text = movies.toString()
                 }
             }
         }
+    }
+
+    private fun populateDetailView(movie: Movie?) {
+        binding.toolBar.setTitleTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+        binding.toolBar.title = movie?.title ?: "Detail"
+        binding.movieDescr.text = movie?.overview
+        Glide.with(requireContext())
+            .load("https://image.tmdb.org/t/p/w500/"+movie?.posterPath)
+            .placeholder(R.drawable.baseline_photo_black_24dp)
+            .error(R.drawable.baseline_broken_image_pink_500_24dp)
+            .centerCrop()
+            .fitCenter()
+            .into(binding.movieImage)
     }
 }

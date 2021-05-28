@@ -10,6 +10,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 //apply(plugin = "com.google.firebase.crashlytics")
 val localProperties = gradleLocalProperties(rootDir)
@@ -36,9 +37,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
-            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.getProperty("MOVIE_ACCESS_TOKEN")?:gradleProperties.getProperty("MOVIE_ACCESS_TOKEN"))
-            buildConfigField("String", "MOVIE_API_KEY", localProperties.getProperty("MOVIE_API_KEY")?:gradleProperties.getProperty("MOVIE_API_KEY"))
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.alternateData(gradleProperties, "MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.alternateData(gradleProperties, "MOVIE_ACCESS_TOKEN"))
+            buildConfigField("String", "MOVIE_API_KEY", localProperties.alternateData(gradleProperties, "MOVIE_API_KEY"))
         }
 
         getByName("debug") {
@@ -47,24 +48,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL"))
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.getProperty("MOVIE_BASE_URL")?:gradleProperties.getProperty("MOVIE_BASE_URL"))
-            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.getProperty("MOVIE_ACCESS_TOKEN")?:gradleProperties.getProperty("MOVIE_ACCESS_TOKEN"))
-            buildConfigField("String", "MOVIE_API_KEY", localProperties.getProperty("MOVIE_API_KEY")?:gradleProperties.getProperty("MOVIE_API_KEY"))
+            buildConfigField("String", "MOVIE_BASE_URL", localProperties.alternateData(gradleProperties, "MOVIE_BASE_URL"))
+            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.alternateData(gradleProperties, "MOVIE_ACCESS_TOKEN"))
+            buildConfigField("String", "MOVIE_API_KEY", localProperties.alternateData(gradleProperties, "MOVIE_API_KEY"))
         }
     }
-
-//    flavorDimensions(AppConfig.dimension)
-//    productFlavors {
-//        create("staging") {
-//            applicationIdSuffix = ".staging"
-//            dimension(AppConfig.dimension)
-//        }
-//
-//        create("production") {
-//            dimension(AppConfig.dimension)
-//        }
-//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -107,7 +95,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
-//    debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
+    debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
 
     implementation(project(":core"))
 }

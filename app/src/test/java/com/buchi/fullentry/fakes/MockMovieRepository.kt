@@ -12,10 +12,15 @@ object MockMovieRepository: MovieRepository {
 
     override fun fetchList(id: Int?): Flow<ResultState<MovieListViewState>> = flow {
         val movieList = MockUtilities.testMovieList(0, 1, 2, 3, 4, 5)
-        emit(ResultState.data(null, MovieListViewState(movieList = movieList)))
+        emit(ResultState.data(MovieListViewState(movieList = movieList)))
     }
 
     override fun fetchDetail(id: Int?): Flow<ResultState<MovieDetailViewState>> = flow {
-        emit(ResultState.data(null, MovieDetailViewState(movieDetail = MockUtilities.testMovie(1))))
+        emit(ResultState.data(MovieDetailViewState(movieDetail = MockUtilities.testMovie(1))))
+    }
+
+    override fun queryList(query: String): Flow<ResultState<MovieListViewState>> = flow {
+        val movieList = MockUtilities.testMovieList(0, 1, 2, 3, 4, 5)
+        emit(ResultState.data(MovieListViewState(movieList = movieList)))
     }
 }

@@ -2,15 +2,20 @@ package com.buchi.fullentry.movie.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.buchi.fullentry.databinding.ActivityMovieBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @AndroidEntryPoint
-class MovieActivity: AppCompatActivity() {
+class MovieActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieBinding
     private val viewModel: MovieViewModel by viewModels()
@@ -20,15 +25,19 @@ class MovieActivity: AppCompatActivity() {
         binding = ActivityMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.error.collectLatest {
-                Log.d(javaClass.simpleName, "Error state: $it")
+        viewModel.error.mapLatest { msg ->
+            msg?.let {
+                runOnUiThread {
+                    Snackbar.make(binding.root, "Error: \n$it", Snackbar.LENGTH_LONG).show()
+                }
             }
+        }.launchIn(lifecycleScope)
 
-            viewModel.loading.collectLatest {
-                Log.d(javaClass.simpleName, "Loading state: $it")
+        viewModel.loading.mapLatest {
+            runOnUiThread {
+                if (it) Toast.makeText(this@MovieActivity, "Updating list", Toast.LENGTH_LONG).show()
             }
-        }
+        }.launchIn(lifecycleScope)
 
     }
 }

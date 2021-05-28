@@ -36,16 +36,19 @@ class MovieListViewModel @Inject constructor(
             }
         }
             .launchIn(viewModelScope)
-
     }
 
     private fun processEvents(event: MovieListStateEvents): Flow<ResultState<MovieListViewState>> {
         return when (event) {
             is MovieListStateEvents.Idle -> {
-                flow { emit(ResultState.data(null, MovieListViewState())) }
+                flow { emit(ResultState.data(MovieListViewState())) }
             }
             is MovieListStateEvents.FetchMovieList -> {
                 movieRepository.fetchList(event.id)
+            }
+
+            is MovieListStateEvents.QueryList -> {
+                movieRepository.queryList(event.query)
             }
         }
     }

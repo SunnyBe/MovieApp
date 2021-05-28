@@ -35,6 +35,7 @@ object AppDependencies {
     private const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTest}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    private const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
     private const val espressoIntent = "androidx.test.espresso:espresso-intents:${Versions.espresso}"
     private const val espressoIdling = "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
     private const val runner = "androidx.test:runner:1.3.0"
@@ -44,6 +45,7 @@ object AppDependencies {
     private const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     private const val navTest = "androidx.navigation:navigation-testing:${Versions.navigation}"
     private const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:2.33-beta"
+    private const val fragmentTest = "androidx.fragment:fragment-testing:${Versions.fragment}"
 
     // Annotations
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -89,6 +91,7 @@ object AppDependencies {
     val androidTestLibraries = arrayListOf<String>().apply {
         add(extJUnit)
         add(espressoCore)
+        add(espressoContrib)
         add(espressoIntent)
         add(roomTest)
         add(runner)
@@ -96,6 +99,7 @@ object AppDependencies {
         add(coroutinesTest)
         add(hiltAndroidTest)
         add(navTest)
+        add(fragmentTest)
     }
 
     val testLibraries = arrayListOf<String>().apply {

@@ -19,3 +19,7 @@ object GradleUtils {
         return properties
     }
 }
+
+fun Properties.alternateData(gradleProperties: Properties, param: String): String {
+    return getProperty(param)?:gradleProperties.getProperty(param)
+}

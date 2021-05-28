@@ -17,5 +17,5 @@ interface MovieService {
     ): MovieListResponse
 
     @GET("")
-    suspend fun movidDetail(id: Int?): Movie
+    suspend fun movieDetail(id: Int?): Movie
 }

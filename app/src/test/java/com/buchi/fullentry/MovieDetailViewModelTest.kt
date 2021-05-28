@@ -48,7 +48,6 @@ class MovieDetailViewModelTest {
         coroutineScope.dispatcher.runBlockingTest {
             val expectedFlow = flowOf(
                 ResultState.data(
-                    null,
                     MovieDetailViewState(movieDetail = MockUtilities.testMovie(1))
                 )
             )
@@ -69,7 +68,6 @@ class MovieDetailViewModelTest {
         coroutineScope.dispatcher.runBlockingTest {
             val expectedFlow = flowOf(
                 ResultState.error<MovieDetailViewState>(
-                    "Failed to fetch",
                     Throwable("Failed to fetch")
                 )
             )

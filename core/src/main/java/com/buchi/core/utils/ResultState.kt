@@ -8,11 +8,10 @@ data class ResultState<T>(
 ) {
     companion object {
         fun <T> error(
-            message: String,
-            error: Throwable
+            error: Throwable,
+            message: Event<String>?= null
         ): ResultState<T> {
             return ResultState(
-                message = Event(message),
                 error = Event(error),
                 loading = false,
                 data = null
@@ -23,7 +22,6 @@ data class ResultState<T>(
             isLoading: Boolean
         ): ResultState<T> {
             return ResultState(
-                message = null,
                 error = null,
                 loading = isLoading,
                 data = null
@@ -31,11 +29,10 @@ data class ResultState<T>(
         }
 
         fun <T> data(
-            message: String? = null,
-            data: T? = null
+            data: T? = null,
+            message: Event<String>?= null
         ): ResultState<T> {
             return ResultState(
-                message = Event.messageEvent(message),
                 error = null,
                 loading = false,
                 data = Event.dataEvent(data)
