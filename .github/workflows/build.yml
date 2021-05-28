@@ -13,4 +13,4 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       - name: Build and test the app
-        run: ./gradlew clean test assembleDebug --stacktrace
+        run:  ./gradlew clean test assembleDebug --stacktrace
