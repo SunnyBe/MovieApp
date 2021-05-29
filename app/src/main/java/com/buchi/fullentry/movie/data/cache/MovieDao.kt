@@ -2,6 +2,7 @@ package com.buchi.fullentry.movie.data.cache
 
 import androidx.room.*
 import com.buchi.core.base.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao: BaseDao {
@@ -13,7 +14,10 @@ interface MovieDao: BaseDao {
     fun loadAllByIds(movieIds: IntArray): List<MovieData>
 
     @Query("SELECT * FROM movie WHERE title LIKE :title LIMIT 1")
-    fun findByTitle(title: String): MovieData?
+    fun findByTitle(title: String): MovieData
+
+    @Query("SELECT * FROM movie WHERE title LIKE :title")
+    fun selectByTitle(title: String): Flow<List<MovieData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg movies: MovieData)

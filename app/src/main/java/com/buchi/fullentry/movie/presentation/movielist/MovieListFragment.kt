@@ -62,15 +62,19 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.movieRefreshAction.setOnRefreshListener(this)
-        viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
+        binding.movieList.apply {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(viewModel.listId))
 
         binding.searchQuery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
+                return query?.let {
                     viewModel.setStateEvent(MovieListStateEvents.QueryList(query))
-                    return true
+                    true
                 } ?: kotlin.run {
-                    return false
+                    false
                 }
             }
 
@@ -85,7 +89,7 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         })
 
         binding.searchQuery.setOnCloseListener {
-            viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
+            viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(viewModel.listId))
             true
         }
 
@@ -105,7 +109,8 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 vs.movieList?.let { movies ->
                     Log.d(javaClass.simpleName, movies.toString())
                     binding.movieRefreshAction.isRefreshing = false
-                    updateRecyclerView(movies)
+                    // Only update the current list if there's a new list
+                    if (movies.isNotEmpty()) updateRecyclerView(movies)
                 }
             }
         }
@@ -113,10 +118,6 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun updateRecyclerView(movies: List<Movie>) {
         listAdapter.submitList(movies)
-        binding.movieList.apply {
-            adapter = listAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
     }
     private fun navigateToDetailPage(item: Movie) {
         val bundle = Bundle().apply {
@@ -126,7 +127,6 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        Log.d(javaClass.simpleName, "is onRefresh called()")
-        viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(5))
+        viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(viewModel.listId))
     }
 }

@@ -3,32 +3,33 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object AppDependencies {
     // std lib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-
     // android ui
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     private const val material = "com.google.android.material:material:${Versions.material}"
     private const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}"
-
-    // api call
-    private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    private const val retrofitConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
-
-    private const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
-
-    // Co
-    private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-    private const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
-    private const val gson = "com.google.code.gson:gson:${Versions.gson}"
-    private const val room = "androidx.room:room-runtime:${Versions.room}"
-    private const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     private const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
     private const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
-
+    // Navigation
+    private const val navFragment = "androidx.navigation:navigation-fragment-ktx:2.3.5"
+    private const val navUi = "androidx.navigation:navigation-ui-ktx:2.3.5"
+    // Network call
+    private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    private const val retrofitConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    private const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
+    private const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    // Synchronous and Reactive
+    private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    // DB
+    private const val room = "androidx.room:room-runtime:${Versions.room}"
+    private const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    // DI
+    private const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     // Image rendering
     private const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-
+    // Debug
+    private const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
     // test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val mocktio = "org.mockito.kotlin:mockito-kotlin:${Versions.mockito}"
@@ -59,6 +60,8 @@ object AppDependencies {
         add(appcompat)
         add(constraintLayout)
         add(material)
+        add(navFragment)
+        add(navUi)
         add(stetho)
         add(retrofit)
         add(retrofitConverter)
@@ -67,6 +70,7 @@ object AppDependencies {
         add(gson)
         add(hilt)
         add(room)
+        add(roomKtx)
         add(fragmentKtx)
         add(activityKtx)
         add(glide)

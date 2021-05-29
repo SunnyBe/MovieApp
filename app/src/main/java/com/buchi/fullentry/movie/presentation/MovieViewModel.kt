@@ -19,7 +19,7 @@ class MovieViewModel @Inject constructor(): ViewModel() {
 
     fun dataStateChanged(dataState: ResultState<*>) {
         _error.value = dataState.error?.peekContent()?.message
-        _loading.value = dataState.loading
+//        _loading.value = dataState.loading // Handled by Fragments
     }
 
 }

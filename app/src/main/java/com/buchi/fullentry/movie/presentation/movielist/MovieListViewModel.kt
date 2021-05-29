@@ -15,6 +15,8 @@ class MovieListViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
+    val listId: Int = 1
+
     // Event Channel: This is updated to perform an event
     private val _stateEvents = MutableStateFlow<MovieListStateEvents>(MovieListStateEvents.Idle)
     private val stateEvents: StateFlow<MovieListStateEvents> = _stateEvents

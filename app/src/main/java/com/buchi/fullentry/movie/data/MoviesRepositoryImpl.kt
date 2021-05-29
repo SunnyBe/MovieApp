@@ -11,10 +11,12 @@ import com.buchi.fullentry.movie.domain.toEntity
 import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewState
 import com.buchi.fullentry.movie.presentation.movielist.MovieListViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalCoroutinesApi
 class MoviesRepositoryImpl @Inject constructor(
     private val context: Context,
     private val network: MovieService,
@@ -47,18 +49,8 @@ class MoviesRepositoryImpl @Inject constructor(
     }
 
     override fun queryList(query: String): Flow<ResultState<MovieListViewState>> {
-        return flow {
-            val movie = cache.findByTitle(query)
-            if (movie != null) {
-                emit(ResultState.data(MovieListViewState(movieList = listOf(movie.toEntity()))))
-            } else {
-                emit(
-                    ResultState.data(
-                        MovieListViewState(
-                            movieList = cache.getAll().map { it.toEntity() })
-                    )
-                )
-            }
+        return cache.selectByTitle(query).mapLatest { movies->
+            ResultState.data(MovieListViewState(movieList = movies.map { it.toEntity() }))
         }
             .onStart {
                 emit(ResultState.loading(true))

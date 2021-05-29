@@ -91,8 +91,6 @@ dependencies {
     kaptTest(AppDependencies.testAnnotations)
     kaptAndroidTest(AppDependencies.hiltCompiler)
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
     debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
