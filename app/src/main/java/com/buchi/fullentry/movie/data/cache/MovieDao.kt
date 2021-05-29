@@ -16,7 +16,7 @@ interface MovieDao: BaseDao {
     @Query("SELECT * FROM movie WHERE title LIKE :title LIMIT 1")
     fun findByTitle(title: String): MovieData
 
-    @Query("SELECT * FROM movie WHERE title LIKE :title")
+    @Query("SELECT * FROM movie WHERE title LIKE '%' || :title || '%'")
     fun selectByTitle(title: String): Flow<List<MovieData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,14 +18,11 @@ import com.buchi.fullentry.databinding.FragmentMovieListBinding
 import com.buchi.fullentry.movie.adapter.MovieListAdapter
 import com.buchi.fullentry.movie.model.Movie
 import com.buchi.fullentry.movie.presentation.MovieViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.withContext
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -35,7 +31,7 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val viewModel: MovieListViewModel by viewModels()
     private val activityViewModel: MovieViewModel by activityViewModels()
 
-    private val movieListListener = object: MovieListAdapter.MovieListListener{
+    private val movieListListener = object : MovieListAdapter.MovieListListener {
         override fun onItemClicked(item: Movie) {
             navigateToDetailPage(item)
         }
@@ -70,25 +66,26 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         binding.searchQuery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return query?.let {
+                return if (query != null && query.isNotBlank()) {
                     viewModel.setStateEvent(MovieListStateEvents.QueryList(query))
                     true
-                } ?: kotlin.run {
+                } else {
                     false
                 }
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
+                return if (newText != null && newText.isNotBlank()) {
                     viewModel.setStateEvent(MovieListStateEvents.QueryList(newText))
-                    return true
-                } ?: kotlin.run {
-                    return false
+                    true
+                } else {
+                    false
                 }
             }
         })
 
         binding.searchQuery.setOnCloseListener {
+            Log.d(javaClass.simpleName, "SearchView cancelled")
             viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(viewModel.listId))
             true
         }
@@ -119,6 +116,7 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun updateRecyclerView(movies: List<Movie>) {
         listAdapter.submitList(movies)
     }
+
     private fun navigateToDetailPage(item: Movie) {
         val bundle = Bundle().apply {
             putParcelable("movie", item)
