@@ -89,6 +89,12 @@ class MovieListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(viewModel.listId))
             true
         }
+        binding.searchQuery.setOnCloseListener(object : SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                Log.d(javaClass.simpleName, "SearchView cancelled2")
+                return true
+            }
+        })
 
         lifecycleScope.launchWhenStarted {
             viewModel.dataState.mapLatest { ds ->
