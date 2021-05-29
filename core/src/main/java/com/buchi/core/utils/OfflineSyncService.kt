@@ -29,6 +29,8 @@ class OfflineSyncService<N, C> private constructor(
     @Volatile
     private var isNetworkAvailable: Boolean? = null
 
+    private var error: (suspend (Throwable) -> Unit)? = null
+
     /**
      * Update isNetworkAvailable and proceed with using the same OfflineSyncService instance.
      * @param isNetworkAvailable callback to take in Network check implementation from consumer.
@@ -43,7 +45,7 @@ class OfflineSyncService<N, C> private constructor(
      * last cached data to consumer.
      */
     fun warn(error: suspend (Throwable) -> Unit) = apply {
-
+        this.error = error
     }
 
     /**
@@ -71,8 +73,7 @@ class OfflineSyncService<N, C> private constructor(
                 makeNetworkCallAndCacheResponse(dispatcher)
             } else {
                 Log.d(javaClass.simpleName, "Internet is not available. Last data will be served")
-                // Todo Pass this warning through to the offlineService instance
-//                warn(Throwable("Internet is not available. Last data will be served"))
+                error(Throwable("Internet is not available. Last data will be served"))
             }
             offlineSyncCallback?.cachedData()
         }
@@ -92,8 +93,7 @@ class OfflineSyncService<N, C> private constructor(
                 makeNetworkCallAndCacheResponse(dispatcher)
             } else {
                 Log.d(javaClass.simpleName, "Internet is not available. Last data will be served")
-                // Todo Pass this warning through to the offlineService instance
-//                warn(Throwable("Internet is not available. Last data will be served"))
+                error(Throwable("Internet is not available. Last data will be served"))
             }
             offlineSyncCallback?.cachedData()
         }
@@ -105,10 +105,11 @@ class OfflineSyncService<N, C> private constructor(
      * @param dispatcher context to run suspending function in.
      */
     private suspend fun makeNetworkCallAndCacheResponse(dispatcher: CoroutineContext) {
-        val networkResponse =  netWorkData(dispatcher)
+        val networkResponse = netWorkData(dispatcher)
         // When internet is available
         if (toCache != null && !toCache) throw RuntimeException("You can't get a cached data, since you didn't specify toCache=true in OfflineSyncService.Build")
         if (networkResponse == null) throw RuntimeException("Cannot proceed since Network response has value as null.")
+        if (networkResponse)
         offlineSyncCallback?.cacheNetworkResponse(networkResponse)
     }
 
