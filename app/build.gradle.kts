@@ -94,6 +94,7 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
     debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 
     implementation(project(":core"))
 }
