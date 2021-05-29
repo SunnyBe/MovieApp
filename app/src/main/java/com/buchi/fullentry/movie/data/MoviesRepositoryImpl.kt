@@ -52,7 +52,7 @@ class MoviesRepositoryImpl @Inject constructor(
             val cachedList = movieOfflineService.build()
                 .customNetworkCheck { InternetReachability.isInternetAvailable(context) }
                 .warn { error ->
-                    emit(ResultState.error<MovieListViewState>(error))
+//                    emit(ResultState.error<MovieListViewState>(error))
                 }
                 .cachedData(dispatcher)?.map { it.toEntity() }
             Log.d(javaClass.simpleName, "Cached List: $cachedList")
