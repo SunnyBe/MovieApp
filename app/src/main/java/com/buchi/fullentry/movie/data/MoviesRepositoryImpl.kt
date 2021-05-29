@@ -88,6 +88,12 @@ class MoviesRepositoryImpl @Inject constructor(
 //            }
 //            .flowOn(dispatcher)
 //    }
+//    private fun updateMovieListInCache(networkList: List<MovieData>?) {
+//        networkList?.let { list ->
+//            Log.d(javaClass.simpleName, "Updating Cache: $list")
+//            cache.insertAll(*list.toTypedArray())
+//        }
+//    }
 
     override fun queryList(query: String): Flow<ResultState<MovieListViewState>> {
         return cache.selectByTitle(query).mapLatest { movies ->
@@ -100,13 +106,6 @@ class MoviesRepositoryImpl @Inject constructor(
                 emit(ResultState.error(cause))
             }
             .flowOn(dispatcher)
-    }
-
-    private fun updateMovieListInCache(networkList: List<MovieData>?) {
-        networkList?.let { list ->
-            Log.d(javaClass.simpleName, "Updating Cache: $list")
-            cache.insertAll(*list.toTypedArray())
-        }
     }
 
     override fun fetchDetail(id: Int?): Flow<ResultState<MovieDetailViewState>> {
