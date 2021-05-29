@@ -17,10 +17,12 @@ import com.buchi.fullentry.movie.model.Movie
 import com.buchi.fullentry.movie.presentation.MovieViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
 
@@ -79,15 +81,38 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun populateDetailView(movie: Movie?) {
-        binding.toolBar.setTitleTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
-        binding.toolBar.title = movie?.title ?: "Detail"
-        binding.movieDescr.text = movie?.overview
-        Glide.with(requireContext())
-            .load("https://image.tmdb.org/t/p/w500/"+movie?.posterPath)
-            .placeholder(R.drawable.baseline_photo_black_24dp)
-            .error(R.drawable.baseline_broken_image_pink_500_24dp)
-            .centerCrop()
-            .fitCenter()
-            .into(binding.movieImage)
+        with(binding) {
+            toolBar.setTitleTextColor(ResourcesCompat.getColor(resources, R.color.white, null))
+            toolBar.title = movie?.title ?: "Detail"
+            movieDescr.text = movie?.overview
+            with(detailInclude) {
+                langDetail.text = resources.getString(
+                    R.string.detail_value_string,
+                    "Language",
+                    movie?.originalLanguage?.toUpperCase()
+                )
+                voteAverage.text = resources.getString(
+                    R.string.detail_value_string,
+                    "Popularity",
+                    movie?.popularity.toString()
+                )
+                releaseDate.text = resources.getString(
+                    R.string.detail_value_string,
+                    "Release Date",
+                    movie?.releaseDate
+                )
+            }
+//        detailInclude.itemValue.text = resources.getString(R.string.detail_value_string,"Language", movie?.originalLanguage?.toUpperCase())
+//        popularityLabel.text = resources.getString(R.string.detail_value_string,"Popularity", movie?.popularity.toString())
+//        releaseDateLabel.text = resources.getString(R.string.detail_value_string,"Release Date", movie?.releaseDate)
+
+            Glide.with(requireContext())
+                .load("https://image.tmdb.org/t/p/w500/" + movie?.posterPath)
+                .placeholder(R.drawable.baseline_photo_black_24dp)
+                .error(R.drawable.baseline_broken_image_pink_500_24dp)
+                .centerCrop()
+                .fitCenter()
+                .into(movieImage)
+        }
     }
 }

@@ -32,8 +32,6 @@ class OfflineFirstService(private val context: Context) {
     suspend fun<T, K> dataFromCache(cacheSyncCallback: CacheSyncCallback<T, K>): K? {
         return withContext(Dispatchers.IO) {
             if (!offlineCache) throw RuntimeException("isOfflineCache value is false. Set value to true  in Builder.config() function!")
-//        cacheSyncCallback.networkCall()
-//        cacheSyncCallback.syncFromNetworkCall()
             val entity = cacheSyncCallback.networkCacheEntity()
             entity
         }
@@ -66,8 +64,5 @@ class OfflineFirstService(private val context: Context) {
         suspend fun networkCall(): T?
         suspend fun syncFromNetworkCall(): T?
         suspend fun networkCacheEntity(): K?
-//        fun checkCache(): T
-//        fun synchFromNetwork(): T
-//        fun<K> cacheNetworkRequest(): K
     }
 }
