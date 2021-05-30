@@ -30,6 +30,7 @@ object Versions {
     const val stetho = "1.5.1"
     const val swipeRefresh = "1.1.0"
     const val turbine = "0.5.1"
+    const val workManager = "2.5.0"
 
     //test
     const val junit = "4.12"

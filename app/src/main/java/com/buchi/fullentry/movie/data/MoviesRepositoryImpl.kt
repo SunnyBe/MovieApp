@@ -1,9 +1,8 @@
 package com.buchi.fullentry.movie.data
 
 import android.content.Context
-import android.util.Log
 import com.buchi.core.utils.InternetReachability
-import com.buchi.core.utils.OfflineSyncService
+import com.buchi.core.utils.OfflineSync
 import com.buchi.core.utils.ResultState
 import com.buchi.fullentry.movie.data.cache.MovieDao
 import com.buchi.fullentry.movie.data.cache.MovieData
@@ -26,16 +25,17 @@ class MoviesRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineContext = Dispatchers.IO
 ) : MovieRepository {
 
-    private val movieListOfflineServiceBuilder: OfflineSyncService.Builder<List<MovieDto>, List<MovieData>> by lazy {
-        OfflineSyncService.Builder<List<MovieDto>, List<MovieData>>()
+    private val movieListOfflineSyncBuilder: OfflineSync.Builder<List<MovieDto>, List<MovieData>> by lazy {
+        OfflineSync.Builder<List<MovieDto>, List<MovieData>>()
             .toCache(true)
             .cacheWihBackgroundService(false)
+//            .startOfflineService<MovieOfflineSyncService>(context) Todo: MovieOfflineSyncService Implementation not done
     }
 
     override fun fetchList(id: Int?): Flow<ResultState<MovieListViewState>> {
         return flow {
-            val movieOfflineService = movieListOfflineServiceBuilder.offlineSyncCallback(object :
-                OfflineSyncService.OfflineSyncServiceCallback<List<MovieDto>, List<MovieData>> {
+            val movieOfflineService = movieListOfflineSyncBuilder.offlineSyncCallback(object :
+                OfflineSync.OfflineSyncServiceCallback<List<MovieDto>, List<MovieData>> {
                 override suspend fun networkCall(): List<MovieDto> {
                     return network.listById(id = id).results
                 }
@@ -49,19 +49,21 @@ class MoviesRepositoryImpl @Inject constructor(
                     return cache.getAll()
                 }
             })
+            var errorMsg: String? = null
             val cachedList = movieOfflineService.build()
                 .customNetworkCheck { InternetReachability.isInternetAvailable(context) }
                 .warn { error ->
-//                    emit(ResultState.error<MovieListViewState>(error))
-                }
-                .cachedData(dispatcher)?.map { it.toEntity() }
-            Log.d(javaClass.simpleName, "Cached List: $cachedList")
-            emit(ResultState.data(MovieListViewState(movieList = cachedList)))
+                    errorMsg = error.message
+                }.cachedData(dispatcher)?.map { it.toEntity() }
+
+            emit(ResultState.data(MovieListViewState(movieList = cachedList), errorMsg))
         }
             .onStart { emit(ResultState.loading(true)) }
-            .catch { cause -> emit(ResultState.error(cause)) }
+            .catch { cause ->
+                cause.printStackTrace()
+                emit(ResultState.error(cause))
+            }
             .flowOn(dispatcher)
-
     }
 
 //    override fun fetchList(id: Int?): Flow<ResultState<MovieListViewState>> {

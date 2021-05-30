@@ -30,12 +30,13 @@ data class ResultState<T>(
 
         fun <T> data(
             data: T? = null,
-            message: Event<String>?= null
+            message: String?= null
         ): ResultState<T> {
             return ResultState(
                 error = null,
                 loading = false,
-                data = Event.dataEvent(data)
+                data = Event.dataEvent(data),
+                message = Event.messageEvent(message)
             )
         }
     }

@@ -19,7 +19,7 @@ class MovieListViewModel @Inject constructor(
 
     // Event Channel: This is updated to perform an event
     private val _stateEvents = MutableStateFlow<MovieListStateEvents>(MovieListStateEvents.Idle)
-    private val stateEvents: StateFlow<MovieListStateEvents> = _stateEvents
+    private val stateEvents: SharedFlow<MovieListStateEvents> get() = _stateEvents
 
     // DataState is the state of date returned with ViewState
     private val _dataState =
@@ -33,7 +33,7 @@ class MovieListViewModel @Inject constructor(
 
     init {
         stateEvents.flatMapLatest { events ->
-            processEvents(events).mapLatest { resp ->
+            processEvents(events).onEach { resp ->
                 _dataState.value = resp
             }
         }

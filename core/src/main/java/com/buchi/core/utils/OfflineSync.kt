@@ -2,15 +2,16 @@ package com.buchi.core.utils
 
 import android.content.Context
 import android.util.Log
-import com.buchi.core.utils.OfflineSyncService.Builder
+import androidx.work.*
+import com.buchi.core.utils.OfflineSync.Builder
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Offline sync processes can be done with [OfflineSyncService]. Functions basically to fetch data
+ * Offline sync processes can be done with [OfflineSync]. Functions basically to fetch data
  * from the internet and updates the cache.
- * [OfflineSyncService] provides a builder [Builder] to set configurations for an instance of this
+ * [OfflineSync] provides a builder [Builder] to set configurations for an instance of this
  * class. The build method of [Builder] in turn creates a new instance of OfflineSyncService.
  * Take Note: Consumer class (usually Repository Implementation) is expected to provide the network
  * request and caching process
@@ -19,7 +20,7 @@ import kotlin.coroutines.CoroutineContext
  * @property C is the class representing the DataBase Data Model.
  * N and C could be the same in case the same network response Model is been saved in the DB.
  */
-class OfflineSyncService<N, C> private constructor(
+class OfflineSync<N, C> private constructor(
     private val toCache: Boolean?,
     private val cacheWihBackgroundService: Boolean?,
     private val offlineSyncCallback: OfflineSyncServiceCallback<N, C>?
@@ -45,10 +46,12 @@ class OfflineSyncService<N, C> private constructor(
      * Update this instance of an error. This is to handle error notification while implementation is
      * continued. For example, Network unavailability can notify consumer and still proceed to send
      * last cached data to consumer.
+     * @param warningCallback callback to notify consumer of error and latest cached data.
      */
-    fun warn(error: suspend (Throwable) -> Unit) = apply {
-        this.serviceError = error
-    }
+    fun warn(warningCallback: suspend (error: Throwable) -> Unit) =
+        apply {
+            serviceError = warningCallback
+        }
 
     /**
      * Skip the cache process and send Network response to the consumer.
@@ -74,8 +77,9 @@ class OfflineSyncService<N, C> private constructor(
                 // When internet is available
                 makeNetworkCallAndCacheResponse(dispatcher)
             } else {
-                Log.d(javaClass.simpleName, "Internet is not available. Last data will be served")
-                serviceError?.let { cause-> cause(Throwable("Internet is not available. Last data will be served")) }
+                Log.d(javaClass.simpleName, "Internet is not available. Last data will be served.")
+                val throwable = Throwable("Internet is not available. Last data will be served.")
+                serviceError?.let { cause -> cause(throwable) }
             }
             offlineSyncCallback?.cachedData()
         }
@@ -95,7 +99,7 @@ class OfflineSyncService<N, C> private constructor(
                 makeNetworkCallAndCacheResponse(dispatcher)
             } else {
                 Log.d(javaClass.simpleName, "Internet is not available. Last data will be served")
-                serviceError?.let { cause-> cause(Throwable("Internet is not available. Last data will be served")) }
+                serviceError?.let { cause -> cause(Throwable("Internet is not available. Last data will be served")) }
             }
             offlineSyncCallback?.cachedData()
         }
@@ -107,15 +111,17 @@ class OfflineSyncService<N, C> private constructor(
      * @param dispatcher context to run suspending function in.
      */
     private suspend fun makeNetworkCallAndCacheResponse(dispatcher: CoroutineContext) {
-        val networkResponse = netWorkData(dispatcher)
-        // When internet is available
-        if (toCache != null && !toCache) throw RuntimeException("You can't get a cached data, since you didn't specify toCache=true in OfflineSyncService.Build")
-        if (networkResponse == null) throw RuntimeException("Cannot proceed since Network response has value as null.")
-        offlineSyncCallback?.cacheNetworkResponse(networkResponse)
+        withContext(dispatcher) {
+            val networkResponse = netWorkData(dispatcher)
+            // When internet is available
+            if (toCache != null && !toCache) throw RuntimeException("You can't get a cached data, since you didn't specify toCache=true in OfflineSyncService.Build")
+            if (networkResponse == null) throw RuntimeException("Cannot proceed since Network response has value as null.")
+            offlineSyncCallback?.cacheNetworkResponse(networkResponse)
+        }
     }
 
     /**
-     * A Builder class for [OfflineSyncService] to set configuration and important implementation of
+     * A Builder class for [OfflineSync] to set configuration and important implementation of
      * network and data caching processes via the [OfflineSyncServiceCallback]
      *
      */
@@ -125,7 +131,7 @@ class OfflineSyncService<N, C> private constructor(
         @Volatile
         var cacheWihBackgroundService: Boolean? = false,
         @Volatile
-        var offlineSyncCallback: OfflineSyncServiceCallback<N, C>? = null,
+        var offlineSyncCallback: OfflineSyncServiceCallback<N, C>? = null
     ) {
 
         fun toCache(toCache: Boolean?) = apply {
@@ -143,13 +149,56 @@ class OfflineSyncService<N, C> private constructor(
             )
         }
 
-        fun build(): OfflineSyncService<N, C> =
-            OfflineSyncService(toCache, cacheWihBackgroundService, offlineSyncCallback)
+        inline fun<reified B: Worker> startOfflineService(context: Context?) = apply {
+            if (cacheWihBackgroundService != null && !cacheWihBackgroundService!!)
+                throw Throwable("Sync Builder class has cacheWihBackgroundService value to be false. Set it to be true")
+            startBackgroundService<B>(context)
+        }
+
+        inline fun<reified W: Worker> startBackgroundService(context: Context?) {
+            if (context == null) throw NullPointerException("Context must not be null. Provide a context to start background service.")
+            val syncWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<W>()
+                .build()
+            WorkManager.getInstance(context)
+                .enqueue(syncWorkRequest)
+        }
+
+        fun build(): OfflineSync<N, C> =
+            OfflineSync(toCache, cacheWihBackgroundService, offlineSyncCallback)
     }
 
+    /**
+     * [OfflineSyncServiceCallback] Interface to process important implementations required for Syncing data from Network to local
+     * Cache. Expected implementation includes network call, caching as well as how the Consumer
+     * wants the caching to be done.
+     * Consumer's implementation of [OfflineSyncServiceCallback] must be provided and must be working
+     * to achieve syncing.
+     * Since these functions could be long running tasks, they are made suspend functions and are
+     * expected to run on a background thread.
+     */
     interface OfflineSyncServiceCallback<N, out C> {
+        /**
+         * User specified Network call that returns [N] which is the Network data Model or DTO
+         * @return Network data Model or DTO
+         */
         suspend fun networkCall(): N
+
+        /**
+         * User specified caching process that returns [C] which is the Database data Model.
+         * @return Database data Model.
+         */
         suspend fun cachedData(): C
+
+        /**
+         * User specified Network response caching. It is necessary to inject the Network response
+         * which has class type [N] as a parameter to this function.
+         * @return Network data Model or DTO
+         */
         suspend fun cacheNetworkResponse(networkResponse: N)
+    }
+
+    data class NoInternetException(override val message: String, val throws: Throwable?) :
+        Throwable() {
+
     }
 }

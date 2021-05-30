@@ -15,6 +15,7 @@ import com.buchi.fullentry.R
 import com.buchi.fullentry.databinding.FragmentMovieDetailBinding
 import com.buchi.fullentry.movie.model.Movie
 import com.buchi.fullentry.movie.presentation.MovieViewModel
+import com.buchi.fullentry.utilities.Constants
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,10 +33,6 @@ class MovieDetailFragment : Fragment() {
 
     private var movieDetail: Movie? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +46,7 @@ class MovieDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.apply {
-            movieDetail = getParcelable("movie")
+            movieDetail = getParcelable(Constants.MOVIE_ITEM)
             if (movieDetail != null) {
                 populateDetailView(movieDetail)
             } else {
@@ -102,12 +99,9 @@ class MovieDetailFragment : Fragment() {
                     movie?.releaseDate
                 )
             }
-//        detailInclude.itemValue.text = resources.getString(R.string.detail_value_string,"Language", movie?.originalLanguage?.toUpperCase())
-//        popularityLabel.text = resources.getString(R.string.detail_value_string,"Popularity", movie?.popularity.toString())
-//        releaseDateLabel.text = resources.getString(R.string.detail_value_string,"Release Date", movie?.releaseDate)
 
             Glide.with(requireContext())
-                .load("https://image.tmdb.org/t/p/w500/" + movie?.posterPath)
+                .load(Constants.IMAGE_BASE_URL + movie?.posterPath)
                 .placeholder(R.drawable.baseline_photo_black_24dp)
                 .error(R.drawable.baseline_broken_image_pink_500_24dp)
                 .centerCrop()

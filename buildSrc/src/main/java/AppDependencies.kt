@@ -21,6 +21,7 @@ object AppDependencies {
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
     // Synchronous and Reactive
     private const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    private const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
     // DB
     private const val room = "androidx.room:room-runtime:${Versions.room}"
     private const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
@@ -67,6 +68,7 @@ object AppDependencies {
         add(retrofitConverter)
         add(okhttpLogging)
         add(coroutinesAndroid)
+        add(workManager)
         add(gson)
         add(hilt)
         add(room)
