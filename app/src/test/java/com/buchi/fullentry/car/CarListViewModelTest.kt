@@ -1,11 +1,11 @@
-package com.buchi.fullentry
+package com.buchi.fullentry.car
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.buchi.core.utils.ResultState
-import com.buchi.fullentry.movie.data.MovieRepository
-import com.buchi.fullentry.movie.presentation.movielist.MovieListStateEvents
-import com.buchi.fullentry.movie.presentation.movielist.MovieListViewModel
-import com.buchi.fullentry.movie.presentation.movielist.MovieListViewState
+import com.buchi.fullentry.cars.data.CarRepository
+import com.buchi.fullentry.cars.presentation.carlist.CarListStateEvents
+import com.buchi.fullentry.cars.presentation.carlist.CarListViewModel
+import com.buchi.fullentry.cars.presentation.carlist.CarListViewState
 import com.buchi.fullentry.utilities.MainCoroutineScopeRule
 import com.buchi.fullentry.utilities.MockUtilities
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +18,9 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
-class MovieListViewModelTest {
+class CarListViewModelTest {
 
-    private lateinit var viewModel: MovieListViewModel
+    private lateinit var viewModel: CarListViewModel
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -28,14 +28,14 @@ class MovieListViewModelTest {
     @get:Rule
     val coroutineScope = MainCoroutineScopeRule()
 
-    private val movieRepo: MovieRepository by lazy {
-        Mockito.mock(MovieRepository::class.java)
+    private val carRepo: CarRepository by lazy {
+        Mockito.mock(CarRepository::class.java)
     }
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        viewModel = MovieListViewModel(movieRepo)
+        viewModel = CarListViewModel(carRepo)
     }
 
     @After
@@ -45,44 +45,53 @@ class MovieListViewModelTest {
     }
 
     @Test
-    fun fetchMovieListReturnsValidMovieList_updates_viewState_withValidData() {
+    fun fetchCarListReturnsValidMovieList_updates_viewState_withValidData() {
         coroutineScope.dispatcher.runBlockingTest {
             val expectedFlow = flowOf(
-                ResultState.data(
-                    MovieListViewState(movieList = MockUtilities.testMovieList(1, 2, 3, 4))
-                )
+                ResultState.data(CarListViewState(carList = MockUtilities.testCarList(0, 1, 2, 3)))
             )
-            Mockito.`when`(movieRepo.fetchList(1)).thenReturn(expectedFlow)
-            viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
+            Mockito.`when`(carRepo.fetchList()).thenReturn(expectedFlow)
+
+            viewModel.setStateEvent(CarListStateEvents.FetchCarList)
 
             println(viewModel.dataState.value.data!!.peekContent())
             Assert.assertNotNull(viewModel.dataState.value.data!!.peekContent())
-            Assert.assertEquals(1, viewModel.dataState.value.data?.getContentIfNotHandled()?.movieList?.first()?.id)
+            Assert.assertEquals(
+                "pdUCkqhr0",
+                viewModel.dataState.value.data?.getContentIfNotHandled()?.carList?.first()?.id
+            )
         }
     }
 
     @Test
     fun fetchMovieListReturnsValidNetworkError_updates_dataState_withError() {
         coroutineScope.dispatcher.runBlockingTest {
-            val expectedFlow = flowOf(ResultState.error<MovieListViewState>(Throwable("Failed to fetch")))
-            Mockito.`when`(movieRepo.fetchList(1)).thenReturn(expectedFlow)
-            viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
+            val expectedFlow =
+                flowOf(ResultState.error<CarListViewState>(Throwable("Failed to fetch")))
+            Mockito.`when`(carRepo.fetchList()).thenReturn(expectedFlow)
+            viewModel.setStateEvent(CarListStateEvents.FetchCarList)
 
             println(viewModel.dataState.value.error!!.peekContent())
             Assert.assertNotNull(viewModel.dataState.value.error!!.peekContent())
-            Assert.assertEquals("Failed to fetch", viewModel.dataState.value.error?.getContentIfNotHandled()?.message)
+            Assert.assertEquals(
+                "Failed to fetch",
+                viewModel.dataState.value.error?.getContentIfNotHandled()?.message
+            )
         }
     }
 
     @Test(expected = Throwable::class)
     fun fetchMovieListReturnsSystemError() {
         coroutineScope.dispatcher.runBlockingTest {
-            Mockito.`when`(movieRepo.fetchList(1)).thenThrow(Throwable("Failed to fetch"))
-            viewModel.setStateEvent(MovieListStateEvents.FetchMovieList(1))
+            Mockito.`when`(carRepo.fetchList()).thenThrow(Throwable("Failed to fetch"))
+            viewModel.setStateEvent(CarListStateEvents.FetchCarList)
 
             println(viewModel.dataState.value.error!!.peekContent())
             Assert.assertNotNull(viewModel.dataState.value.error!!.peekContent())
-            Assert.assertEquals("Failed to fetch", viewModel.dataState.value.error?.getContentIfNotHandled()?.message)
+            Assert.assertEquals(
+                "Failed to fetch",
+                viewModel.dataState.value.error?.getContentIfNotHandled()?.message
+            )
         }
     }
 

@@ -1,20 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FullEntry" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/red_200</item>
-        <item name="colorPrimaryVariant">@color/red_500</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pink_200</item>
-        <item name="colorSecondaryVariant">@color/pink_700</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-        <item name="fontFamily">@font/basic</item>
-        <item name="titleTextColor">@color/white</item>
-    </style>
+<!--    <style name="Theme.FullEntry" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/red_200</item>-->
+<!--        <item name="colorPrimaryVariant">@color/red_500</item>-->
+<!--        <item name="colorOnPrimary">@color/white</item>-->
+<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+<!--        <item name="colorSecondary">@color/pink_200</item>-->
+<!--        <item name="colorSecondaryVariant">@color/pink_700</item>-->
+<!--        <item name="colorOnSecondary">@color/white</item>-->
+<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--        <item name="fontFamily">@font/basic</item>-->
+<!--        <item name="titleTextColor">@color/white</item>-->
+<!--    </style>-->
 
     <style name="AppTheme.Movie" parent="Theme.FullEntry">
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -22,6 +22,39 @@
         <item name="titleTextColor">@color/white</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="AppTheme.Car" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/gray_50</item>
+        <item name="colorPrimaryVariant">@color/gray_200</item>
+        <item name="colorOnPrimary">@color/black_500</item>
+        <item name="colorPrimaryDark">@color/gray_500</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/black_500</item>
+        <item name="colorSecondaryVariant">@color/black_500</item>
+        <item name="colorOnSecondary">@color/yellow_500</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/gilroy_bold</item>
+        <item name="titleTextColor">@color/white</item>
+
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/gray_500</item>
+        <item name="colorSecondary">@color/black_500</item>
+        <item name="colorOnSecondary">@color/yellow_500</item>
+    </style>
+
+
 
     <style name="CollapsedAppBar" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/white</item>

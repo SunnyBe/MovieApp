@@ -1,4 +1,4 @@
-package com.buchi.fullentry.service
+package com.buchi.fullentry.movie.service
 
 import android.content.Context
 import android.util.Log

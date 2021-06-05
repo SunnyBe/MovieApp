@@ -1,4 +1,4 @@
-package com.buchi.fullentry
+package com.buchi.fullentry.car
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.buchi.core.utils.ResultState
@@ -16,7 +16,7 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
-class MovieDetailViewModelTest {
+class CarDetailViewModelTest {
 
     private lateinit var viewModel: MovieDetailViewModel
 

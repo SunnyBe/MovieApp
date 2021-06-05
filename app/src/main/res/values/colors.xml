@@ -12,6 +12,16 @@
     <color name="red_500">#c4001d</color>
     <color name="red_700">#d32f2f</color>
 
+    <color name="pink_50">#f3e5f5</color>
     <color name="pink_200">#bc477b</color>
     <color name="pink_700">#560027</color>
+
+    <color name="gray_50">#FAFAFAFA</color>
+    <color name="gray_100">#f5f5f5</color>
+    <color name="gray_200">#eeeeee</color>
+    <color name="gray_500">#9e9e9e</color>
+
+    <color name="yellow_500">#FFCC66</color>
+    <color name="pink_500">#9898CF</color>
+    <color name="black_500">#0f1327</color>
 </resources>

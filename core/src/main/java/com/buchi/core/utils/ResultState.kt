@@ -9,28 +9,31 @@ data class ResultState<T>(
     companion object {
         fun <T> error(
             error: Throwable,
-            message: Event<String>?= null
+            message: String? = null
         ): ResultState<T> {
             return ResultState(
                 error = Event(error),
                 loading = false,
-                data = null
+                data = null,
+                message = Event.messageEvent(message)
             )
         }
 
         fun <T> loading(
-            isLoading: Boolean
+            isLoading: Boolean,
+            message: String? = null
         ): ResultState<T> {
             return ResultState(
                 error = null,
                 loading = isLoading,
-                data = null
+                data = null,
+                message = Event.messageEvent(message)
             )
         }
 
         fun <T> data(
             data: T? = null,
-            message: String?= null
+            message: String? = null
         ): ResultState<T> {
             return ResultState(
                 error = null,

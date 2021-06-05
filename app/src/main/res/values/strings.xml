@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">Movie App</string>
+    <string name="app_name">Cars App</string>
     <string name="long_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</string>
     <string name="detail_value_string"><b>%1$s:</b> %2$s</string>
     <string name="detail_value_digit_decimal"><b>%1$s:</b> %1$d</string>
     <string name="refresh">Refresh</string>
     <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="favourite">Favourite</string>
+    <string name="cars">Cars</string>
+    <string name="messenger">Messanger</string>
+    <string name="notification">Notification</string>
+    <string name="purchase">Purchase</string>
 </resources>

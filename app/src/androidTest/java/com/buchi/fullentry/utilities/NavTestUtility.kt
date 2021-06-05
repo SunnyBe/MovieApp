@@ -13,9 +13,7 @@ object NavTestUtility {
      * @return TestNavHostController instance to perform navigation tests with.
      */
     fun testNavHostController(@NavigationRes navigationRes: Int): TestNavHostController {
-        val navController = TestNavHostController(
-            ApplicationProvider.getApplicationContext()
-        )
+        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
         UiThreadStatement.runOnUiThread {
             println("Navigation Res:$navigationRes")
             navController.setGraph(navigationRes)

@@ -1,4 +1,4 @@
-package com.buchi.fullentry
+package com.buchi.fullentry.movie
 
 import android.content.Context
 import androidx.room.Room

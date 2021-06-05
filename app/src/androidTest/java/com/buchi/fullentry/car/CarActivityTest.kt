@@ -1,39 +1,26 @@
-package com.buchi.fullentry
+package com.buchi.fullentry.car
 
-import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.matcher.BundleMatchers.hasEntry
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import com.buchi.fullentry.movie.model.Movie
-import com.buchi.fullentry.movie.presentation.MovieActivity
-import com.buchi.fullentry.movie.presentation.movielist.MovieListFragment
+import com.buchi.fullentry.R
+import com.buchi.fullentry.cars.presentation.CarsActivity
+import com.buchi.fullentry.cars.presentation.carlist.CarListFragment
 import com.buchi.fullentry.utilities.NavTestUtility
 import com.buchi.fullentry.utilities.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.instanceOf
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.*
 import org.junit.*
 import org.junit.runner.RunWith
 
@@ -41,17 +28,17 @@ import org.junit.runner.RunWith
 @LargeTest
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class MovieActivityTest {
+class CarActivityTest {
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val activityScenarioRule = ActivityScenarioRule(MovieActivity::class.java)
+    val activityScenarioRule = ActivityScenarioRule(CarsActivity::class.java)
 
     @get:Rule(order = 2)
-    val intentsTestRule = IntentsTestRule(MovieActivity::class.java)
+    val intentsTestRule = IntentsTestRule(CarsActivity::class.java)
 
-    lateinit var scenario: ActivityScenario<MovieActivity>
+    lateinit var scenario: ActivityScenario<CarsActivity>
 
     @Before
     fun init() {
@@ -67,37 +54,36 @@ class MovieActivityTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
         Assert.assertEquals("com.buchi.fullentry", appContext.packageName)
     }
 
     @Test
-    fun movieActivity_opensMovieListFragment() {
+    fun carActivity_opensCarListFragment() {
         // make auth nav host controller
         runBlocking {
-            val navController: TestNavHostController =
-                NavTestUtility.testNavHostController(R.navigation.movies_nav)
-            launchFragmentInHiltContainer<MovieListFragment> {
+            val navController: TestNavHostController = NavTestUtility.testNavHostController(R.navigation.cars_nav)
+            launchFragmentInHiltContainer<CarListFragment> {
                 view?.let { v ->
                     Navigation.setViewNavController(v, navController)
                 }
             }
-
-            assert(navController.currentDestination?.id == R.id.movieListFragment)
+            assert(navController.currentDestination?.id == R.id.carListFragment)
         }
     }
 
     @Test
-    fun movieListFragment_fetchesList_updatesRecyclerViewAdapter() {
+    fun carListFragment_fetchesList_updatesRecyclerViewAdapter() {
         runBlocking {
             val navController: TestNavHostController =
-                NavTestUtility.testNavHostController(R.navigation.movies_nav)
-            launchFragmentInHiltContainer<MovieListFragment> {
+                NavTestUtility.testNavHostController(R.navigation.cars_nav)
+            launchFragmentInHiltContainer<CarListFragment> {
                 view?.let { v ->
                     Navigation.setViewNavController(v, navController)
                 }
             }
 
-            onView(withId(R.id.movie_list)).check(matches(isDisplayed()))
+            onView(withId(R.id.car_list)).check(matches(isDisplayed()))
         }
     }
 

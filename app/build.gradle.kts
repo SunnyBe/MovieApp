@@ -91,6 +91,10 @@ dependencies {
     kaptTest(AppDependencies.testAnnotations)
     kaptAndroidTest(AppDependencies.hiltCompiler)
 
+    implementation("com.mig35:carousellayoutmanager:1.4.6")
+    implementation("com.caverock:androidsvg-aar:1.4")
+    implementation("com.github.corouteam:GlideToVectorYou:v2.0.0")
+
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
     debugImplementation("androidx.fragment:fragment-testing:${Versions.fragment}")
