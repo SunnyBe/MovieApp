@@ -2,7 +2,6 @@ package com.buchi.fullentry.cars.presentation
 
 import androidx.lifecycle.ViewModel
 import com.buchi.core.utils.ResultState
-import com.buchi.fullentry.movie.presentation.movielist.MovieListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

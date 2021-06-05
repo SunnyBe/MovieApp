@@ -37,9 +37,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.alternateData(gradleProperties, "MOVIE_BASE_URL"))
-            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.alternateData(gradleProperties, "MOVIE_ACCESS_TOKEN"))
-            buildConfigField("String", "MOVIE_API_KEY", localProperties.alternateData(gradleProperties, "MOVIE_API_KEY"))
+            buildConfigField("String", "BASE_URL", localProperties.alternateData(gradleProperties, "BASE_URL"))
         }
 
         getByName("debug") {
@@ -48,9 +46,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "MOVIE_BASE_URL", localProperties.alternateData(gradleProperties, "MOVIE_BASE_URL"))
-            buildConfigField("String", "MOVIE_ACCESS_TOKEN", localProperties.alternateData(gradleProperties, "MOVIE_ACCESS_TOKEN"))
-            buildConfigField("String", "MOVIE_API_KEY", localProperties.alternateData(gradleProperties, "MOVIE_API_KEY"))
+            buildConfigField("String", "BASE_URL", localProperties.alternateData(gradleProperties, "BASE_URL"))
         }
     }
 

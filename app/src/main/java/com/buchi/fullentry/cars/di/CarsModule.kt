@@ -28,7 +28,7 @@ object CarsModule {
     @Singleton
     fun provideCarService(): CarService {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.MOVIE_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(addClient())
             .build()
@@ -62,7 +62,6 @@ object CarsModule {
                 proceed(
                     request()
                         .newBuilder()
-                        .addHeader("access-token", BuildConfig.MOVIE_ACCESS_TOKEN)
                         .build()
                 )
             }

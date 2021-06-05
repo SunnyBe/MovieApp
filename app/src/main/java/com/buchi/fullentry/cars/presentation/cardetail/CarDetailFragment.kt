@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,10 +17,6 @@ import com.buchi.fullentry.cars.adapter.ConditionsAdapter
 import com.buchi.fullentry.cars.model.Car
 import com.buchi.fullentry.cars.presentation.CarsViewModel
 import com.buchi.fullentry.databinding.FragmentCarDetailBinding
-import com.buchi.fullentry.databinding.FragmentMovieDetailBinding
-import com.buchi.fullentry.movie.model.Movie
-import com.buchi.fullentry.movie.presentation.MovieViewModel
-import com.buchi.fullentry.movie.presentation.moviedetail.MovieDetailViewModel
 import com.buchi.fullentry.utilities.Constants
 import com.buchi.fullentry.utilities.formatAmount
 import com.buchi.fullentry.utilities.inBrace
@@ -58,6 +51,7 @@ class CarDetailFragment: Fragment() {
 
         arguments?.apply {
             carDetail = getParcelable(Constants.CAR_ITEM)
+            Log.d(javaClass.simpleName, "Bundle carDetail: $carDetail")
             if (carDetail != null) {
                 viewModel.setStateEvent(CarDetailStateEvents.FetchCarDetail(carDetail?.id))
                 populateDetailView(carDetail)
@@ -85,7 +79,6 @@ class CarDetailFragment: Fragment() {
         lifecycleScope.launch {
             viewModel.viewState.collectLatest { vs ->
                 vs.carDetail?.let { car ->
-                    Log.d(javaClass.simpleName, "Returned car detail: $car")
                     updateDetailView(car)
                 }
             }

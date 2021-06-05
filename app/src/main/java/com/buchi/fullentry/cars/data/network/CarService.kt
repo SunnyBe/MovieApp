@@ -6,10 +6,10 @@ import retrofit2.http.Path
 
 interface CarService {
 
-    @GET("https://api-prod.autochek.africa/v1/inventory/car/search")
+    @GET("inventory/car/search")
     suspend fun carsList(): CarResponse
-    @GET("https://api-prod.autochek.africa/v1/inventory/make?popular=true")
+    @GET("inventory/make?popular=true")
     suspend fun carMakes(): CarResponse
-    @GET("https://api-prod.autochek.africa/v1/inventory/car/{id}")
+    @GET("inventory/car/{id}")
     suspend fun carDetail(@Path(value = "id") id: String?): Car
 }
