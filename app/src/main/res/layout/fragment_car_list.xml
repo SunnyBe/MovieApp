@@ -21,26 +21,14 @@
             android:textStyle="bold"
             app:navigationIconTint="?android:colorPrimaryDark"
             app:navigationIcon="@drawable/ic_home"
-            app:layout_collapseMode="pin">
+            app:layout_scrollFlags="scroll|noScroll">
         </com.google.android.material.appbar.MaterialToolbar>
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <include
+            android:id="@+id/car_toolbar_include"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:statusBarScrim="?attr/colorPrimaryVariant"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleMarginTop="16dp"
-            android:elevation="8dp"
-            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
-            app:collapsedTitleTextAppearance="@style/CollapsedAppBar">
-            <include
-                android:id="@+id/car_toolbar_include"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/car_toolbar_include"/>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            layout="@layout/car_toolbar_include"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
