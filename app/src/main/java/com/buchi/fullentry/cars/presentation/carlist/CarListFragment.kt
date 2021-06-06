@@ -84,27 +84,12 @@ class CarListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     // Init view and setup initial values and processes
     private fun initView() {
         binding.carRefreshAction.setOnRefreshListener(this)
-        val carouselLayoutManager = CarouselLayoutManager(CarouselLayoutManager.VERTICAL).apply {
-            setPostLayoutListener(CarouselZoomPostLayoutListener())
-        }
         binding.carList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             addOnScrollListener(CenterScrollListener())
             adapter = listAdapter
         }
-
-        binding.carList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                val itemHeight = recyclerView.height
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val position = recyclerView.computeHorizontalScrollOffset()
-                        .toFloat() / itemHeight.toFloat()
-                    val itemPosition = floor(position.toDouble()).toInt()
-                }
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
 
         binding.carToolbarInclude.carMakeList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

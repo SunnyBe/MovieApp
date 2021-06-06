@@ -1,8 +1,11 @@
 package com.buchi.fullentry.cars.adapter
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
@@ -20,6 +23,9 @@ class CarMakeListAdapter(
     private val carListListener: CarMakeListListener
 ) :
     ListAdapter<CarMake, CarMakeListAdapter.ListViewHolder>(DIFF_CALLBACK) {
+
+    val DURATION: Long = 500
+    private val on_attach = true
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CarMake>() {
@@ -75,6 +81,33 @@ class CarMakeListAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val car = getItem(position)
         holder.bind(car, carListListener)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+        })
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
+    private fun fromLeftToRight(itemView: View, i: Int) {
+        var i = i
+        if (!on_attach) {
+            i = -1
+        }
+        val not_first_item = i == -1
+        i += 1
+        itemView.translationX = -400f
+        itemView.alpha = 0f
+        val animatorSet = AnimatorSet()
+        val animatorTranslateY: ObjectAnimator = ObjectAnimator.ofFloat(itemView, "translationX", -400f)
+
+        val animatorAlpha = ObjectAnimator.ofFloat(itemView, "alpha", 1f)
+        ObjectAnimator.ofFloat(itemView, "alpha", 0f).start()
+        animatorTranslateY.startDelay = if (not_first_item) DURATION else i * DURATION
+        animatorTranslateY.duration = (if (not_first_item) 2 else 1) * DURATION
+        animatorSet.playTogether(animatorTranslateY, animatorAlpha)
+        animatorSet.start()
     }
 
     interface CarMakeListListener {
