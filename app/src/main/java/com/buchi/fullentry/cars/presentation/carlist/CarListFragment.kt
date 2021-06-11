@@ -158,7 +158,7 @@ class CarListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun fetchCarByMake(item: CarMake) {
-        TODO("Not yet implemented")
+
     }
 
     private fun mviStatesProcessing() {

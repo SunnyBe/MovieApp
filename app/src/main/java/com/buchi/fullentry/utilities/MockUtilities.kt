@@ -12,7 +12,7 @@ object MockUtilities {
         }
     }
 
-    private fun testCar(id: Int): Car {
+    fun testCar(id: Int): Car {
         return Car(
             id = "pdUCkqhr$id",
             title = "Mercedes-Benz G 63 AMG",
